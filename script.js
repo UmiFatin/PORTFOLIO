@@ -67,7 +67,7 @@ $("vol").innerHTML = Array.from({length: 6}, (_, i) =>
   `<div class="box card">${ph(`images/volunteer-${i + 1}.jpg`)}<h5>Program name</h5><small>${D}</small><small>Position</small></div>`).join("");
 
 // More projects
-$("more").innerHTML = `<div class="box card">${ph("images/project-2.jpg", "Project preview")}<h5>Details <a class="more" href="#">More &rarr;</a></h5></div>`;
+$("more").innerHTML = `<div class="box card">${ph("images/project-2.jpg", "Project preview")}<h5>Details <a class="more" href="https://github.com/UmiFatin" target="_blank" rel="noopener">More &rarr;</a></h5></div>`;
 
 // Design gallery -> images/design/<folder>-1.jpg ...  [title, folder, how many images]
 $("dz").innerHTML = [
