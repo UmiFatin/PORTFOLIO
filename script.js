@@ -69,11 +69,31 @@ $("vol").innerHTML = Array.from({length: 6}, (_, i) =>
 // More projects
 $("more").innerHTML = `<div class="box card">${ph("images/project-2.jpg", "Project preview")}<h5>Details <a class="more" href="https://github.com/UmiFatin" target="_blank" rel="noopener">More &rarr;</a></h5></div>`;
 
-// Design gallery -> images/design/<folder>-1.jpg ...  [title, folder, how many images]
-$("dz").innerHTML = [
-  ["Typography", "typography", 6], ["Poster", "poster", 7], ["Poster IG", "poster-ig", 12],
-  ["User Interface", "ui", 3], ["Mockup", "mockup", 5], ["Mind Map", "mindmap", 2]
-].map(([t, f, n]) => `<div class="box"><h3>${t}</h3><div class="gal">${Array.from({length: n}, (_, i) => ph(`images/design/${f}-${i + 1}.jpg`)).join("")}</div></div>`).join("");
+// Collections: cover = <folder>-1.jpg, gallery = <folder>-1.jpg ... <folder>-N.jpg
+// [title, file prefix, max number of photos, short explanation]
+const dlg = $("dlg");
+function covers(id, dir, list) {
+  $(id).innerHTML = list.map((c, i) => `<button class="box card cov" data-i="${i}">${ph(`images/${dir}/${c[1]}-1.jpg`, "cover")}<h5>${c[0]}</h5><small>${c[3]}</small><span class="view">View photos</span></button>`).join("");
+  $(id).onclick = e => {
+    const b = e.target.closest(".cov"); if (!b) return;
+    const c = list[b.dataset.i];
+    $("dt").textContent = c[0]; $("dd").textContent = c[3];
+    $("dg").innerHTML = Array.from({length: c[2]}, (_, k) => `<img src="images/${dir}/${c[1]}-${k + 1}.jpg" alt="${c[0]} ${k + 1}" loading="lazy" onerror="this.remove()">`).join("");
+    dlg.showModal();
+  };
+}
+dlg.onclick = e => { if (e.target === dlg || e.target.closest(".x")) dlg.close(); };
+
+covers("pc", "photography", [
+  ["Collection 1", "collection-1", 12, "Write one short line about this collection."],
+  ["Collection 2", "collection-2", 12, "Write one short line about this collection."]]);
+covers("dz", "design", [
+  ["Typography", "typography", 12, "Text-led designs and social media layouts."],
+  ["Poster", "poster", 12, "Posters for events and campaigns."],
+  ["Poster IG", "poster-ig", 20, "Instagram posts and stories for faculty and club events."],
+  ["User Interface", "ui", 12, "App screen designs made in Figma."],
+  ["Mockup", "mockup", 12, "Brand and product mockups."],
+  ["Mind Map", "mindmap", 12, "Mind maps for study and project planning."]]);
 
 /* ===== TAB ROUTER (About Me > Experience > Project > Photography > Design) ===== */
 const tabs = [...document.querySelectorAll(".tab")], links = [...document.querySelectorAll("#nav a")];
