@@ -101,3 +101,14 @@ dialog::backdrop{background:rgba(0,0,0,.82)}
 .seg button{padding:7px 16px;border:1px solid var(--line);border-radius:99px;background:var(--bg);color:var(--dim);font:13px 'JetBrains Mono',monospace;cursor:pointer;transition:border-color .15s,color .15s}
 .seg button:hover{border-color:var(--red);color:var(--tx)}
 .seg button[aria-pressed="true"]{background:var(--tint);border-color:var(--red);color:var(--tx)}
+/* project cards */
+.cv{position:relative}
+.badge{position:absolute;top:8px;right:8px;padding:2px 10px;border-radius:99px;background:rgba(0,0,0,.8);color:#fff;font:11px 'JetBrains Mono',monospace}
+.tag{display:inline-block;margin:10px 2px 0;padding:1px 10px;border:1px solid var(--red);border-radius:99px;background:var(--tint);font:11px 'JetBrains Mono',monospace}
+.pj h5{margin-top:6px;font-size:15px}
+.pj .ph{aspect-ratio:16/10}
+#pj{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.seg+h3{margin-top:0}
+#dx{margin-bottom:18px}
+#dx:empty{display:none}
+.meta1{margin-bottom:10px;font:12px 'JetBrains Mono',monospace}
