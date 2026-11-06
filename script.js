@@ -47,9 +47,8 @@ showCerts("tech");
 
 // Experience -> images/smffskm-1.jpg ..., images/csclub-1.jpg ...
 const D = "dd/mm/yyyy"; // replace with the real dates
-const lead = (id, p, list) => $(id).innerHTML = list.map((x, i) =>
-  `<div class="box card">${ph(`images/${p}-${i + 1}.jpg`)}<h5>${x[0]}</h5><small>${D}</small><small>${x[1]}</small></div>`).join("");
-lead("smf", "smffskm", [
+const exp = {};
+exp.smffskm = ["SMFFSKM | Position: Exco Multimedia", [
   ["Pemantapan Destini Siswa (PDS)", "Leader of Multimedia Bureau"],
   ["Watikah Pelantikan Ahli SMKPPIM", "Multimedia Bureau"],
   ["Majlis Anugerah Dekan (MAD)", "Leader of Multimedia Bureau"],
@@ -63,19 +62,38 @@ lead("smf", "smffskm", [
   ["Chess@FSKM 2025", "Secretary (PIC Multi & Registration)"],
   ["Majlis Anugerah Dekan (MAD)", "Registration Bureau"],
   ["Annual General Meeting (AGM)", "Leader of Multimedia Bureau"],
-  ["Photoshoot SMKPPIM 24/25", "Technical task"]]);
-lead("csc", "csclub", [
+  ["Photoshoot SMKPPIM 24/25", "Technical task"]]];
+exp.csclub = ["CSCLUB | Position: Leader of Exco Multimedia", [
   ["Hari Keusahawanan", "Multimedia"],
   ["Virtual CS Week", "Multimedia"],
   ["Merch CS", "Registration Bureau"],
   ["Malam Pra-Graduan", "Secretary (PIC Multi)"],
   ["Chess@FSKM 2025", "Secretary (PIC Multi & Registration)"],
-  ["Majlis Anugerah Dekan (MAD)", "Registration Bureau"]]);
-$("vol").innerHTML = Array.from({length: 6}, (_, i) =>
-  `<div class="box card">${ph(`images/volunteer-${i + 1}.jpg`)}<h5>Program name</h5><small>${D}</small><small>Position</small></div>`).join("");
+  ["Majlis Anugerah Dekan (MAD)", "Registration Bureau"]]];
+exp.volunteer = ["Volunteer", Array.from({length: 6}, () => ["Program name", "Position"])];
 
-// More projects
-$("more").innerHTML = `<div class="box card">${ph("images/project-2.jpg", "Project preview")}<h5>Details <a class="more" href="https://github.com/UmiFatin" target="_blank" rel="noopener">More &rarr;</a></h5></div>`;
+
+exp.workshop = ["Workshops and competitions", [
+  ["Road To White Hat Workshop", "Workshop", "28 June 2026"],
+  ["1st International Prosolve 2026", "International Level (Participation)", "23 May 2026"],
+  ["From Queries To Decision: SQL Workshop", "Workshop", "22 April 2026"],
+  ["Modul Kepimpinan Dinamik", "Workshop", "25 - 27 April 2026"],
+  ["Battle Code Competition 2024", "College Level (Consolation Prize)", "2024"],
+  ["SCDC Boom Competition 2024", "College Level (Participation)", "2024"],
+  ["Dronatix Competition 2024", "College Level (Participation)", "2024"],
+  ["International Innovation, Invention & Creation Exhibition (IIICE) 2023", "International Level (Young Inventor - Silver Award)", "2023"],
+  ["Johor Matriculation College Innovation Day 2023", "State Level (New Innovation - Platinum Award)", "2023"],
+  ["Digital Mind Map Competition 2023", "College Level (Consolation Prize)", "2023"],
+  ["Battle Code Competition 2023", "College Level (Participation)", "2023"]]];
+// Experience categories (buttons) -> images/<category>-1.jpg, <category>-2.jpg ...
+const expCats = [["csclub", "CSCLUB"], ["smffskm", "SMFFSKM"], ["volunteer", "Volunteer"], ["workshop", "Workshop/Comp"]];
+function showExp(k) {
+  $("expTabs").innerHTML = expCats.map(c => `<button type="button" aria-pressed="${c[0] === k}" data-k="${c[0]}">${c[1]}</button>`).join("");
+  $("expHead").textContent = exp[k][0];
+  $("exp").innerHTML = exp[k][1].map((x, i) => `<div class="box card">${ph(`images/${k}-${i + 1}.jpg`)}<h5>${x[0]}</h5><small>${x[2] || D}</small><small>${x[1]}</small></div>`).join("");
+}
+$("expTabs").onclick = e => { const b = e.target.closest("button"); if (b) showExp(b.dataset.k); };
+showExp("csclub");
 
 // Collections: cover = <folder>-1.jpg, gallery = <folder>-1.jpg ... <folder>-N.jpg
 // [title, file prefix, max number of photos, short explanation]
@@ -85,7 +103,7 @@ function covers(id, dir, list) {
   $(id).onclick = e => {
     const b = e.target.closest(".cov"); if (!b) return;
     const c = list[b.dataset.i];
-    $("dt").textContent = c[0]; $("dd").textContent = c[3];
+    $("dt").textContent = c[0]; $("dd").textContent = c[3]; $("dx").innerHTML = "";
     $("dg").innerHTML = Array.from({length: c[2]}, (_, k) => `<img src="images/${dir}/${c[1]}-${k + 1}.jpg" alt="${c[0]} ${k + 1}" loading="lazy" onerror="this.remove()">`).join("");
     dlg.showModal();
   };
@@ -102,6 +120,32 @@ covers("dz", "design", [
   ["User Interface", "ui", 12, "App screen designs made in Figma."],
   ["Mockup", "mockup", 12, "Brand and product mockups."],
   ["Mind Map", "mindmap", 12, "Mind maps for study and project planning."]]);
+
+// Projects: [title, file prefix, category, type, writeup, details, github link]
+// images/projects/<prefix>-1.jpg = cover, then -2.jpg, -3.jpg ... = more screenshots
+const W = "Describe this project here: what problem it solves and what you built.";
+const projects = [
+  ["Internship Management System", "internship", "Website", "Group Project", W, "", "https://github.com/UmiFatin"],
+  ["Sport Facilities Management (BlueJ)", "sport-facilities", "Console", "Group Project", W, "", "https://github.com/UmiFatin"],
+  ["ExpenseXpert: Expenses Tracking System", "expensexpert", "Console", "Group Project", W, "Course: CS402 | Language: C++ | Software: Embarcadero Dev C++", "https://github.com/UmiFatin"],
+  ["Concert List Database", "concert-list", "Database", "Group Project", W, "", "https://github.com/UmiFatin"],
+  ["Future Trends in Educational Technology", "edu-tech", "Video", "Group Project", W, "", ""]
+];
+function showProjects(k) {
+  const cats = ["All", ...new Set(projects.map(p => p[2]))];
+  $("pjTabs").innerHTML = cats.map(c => `<button type="button" aria-pressed="${c === k}" data-k="${c}">${c}</button>`).join("");
+  $("pj").innerHTML = projects.map((p, i) => k === "All" || p[2] === k ? `<button class="box card cov pj" data-i="${i}"><div class="cv">${ph(`images/projects/${p[1]}-1.jpg`, "cover")}<span class="badge">${p[3]}</span></div><span class="tag">${p[2]}</span><h5>${p[0]}</h5></button>` : "").join("");
+}
+$("pjTabs").onclick = e => { const b = e.target.closest("button"); if (b) showProjects(b.dataset.k); };
+$("pj").onclick = e => {
+  const b = e.target.closest(".pj"); if (!b) return;
+  const p = projects[b.dataset.i];
+  $("dt").textContent = p[0]; $("dd").textContent = p[4];
+  $("dx").innerHTML = (p[5] ? `<p class="dim meta1">${p[5]}</p>` : "") + (p[6] ? `<a class="btn" href="${p[6]}" target="_blank" rel="noopener">GitHub Link</a>` : "");
+  $("dg").innerHTML = Array.from({length: 8}, (_, k) => `<img src="images/projects/${p[1]}-${k + 1}.jpg" alt="${p[0]} ${k + 1}" loading="lazy" onerror="this.remove()">`).join("");
+  dlg.showModal();
+};
+showProjects("All");
 
 /* ===== TAB ROUTER (About Me > Experience > Project > Photography > Design) ===== */
 const tabs = [...document.querySelectorAll(".tab")], links = [...document.querySelectorAll("#nav a")];
