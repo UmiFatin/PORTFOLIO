@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fatin | Computer Science Portfolio</title>
+<meta name="description" content="Portfolio of Fatin, Computer Science student at UiTM.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav id="nav">
+  <img class="av" src="images/profile.jpg" alt="" onerror="this.style.visibility='hidden'">
+  <a href="#about">About Me</a><a href="#experience">Experience</a><a href="#project">Project</a><a href="#photography">Photography</a><a href="#design">Design</a>
+</nav>
+
+<main>
+<!-- ABOUT ME -->
+<section id="about" class="tab">
+  <div class="hero">
+    <div class="pic"><img src="images/profile.jpg" alt="Fatin" onerror="this.remove()"></div>
+    <div class="box term">
+      <div class="bar"><i></i><i></i><i></i><span>fatin@uitm:~$ whoami</span></div>
+      <div class="pad">
+        <h1>Hi there!<br>I'm Fatin<b class="cur">_</b></h1>
+        <p>Dedicated and goal-oriented Computer Science student with a proven record of leadership, innovation and teamwork. Actively engaged in competitions, consistently achieving high results and awards, including in areas like coding and multimedia.</p>
+        <a class="btn" href="resume.pdf" target="_blank" rel="noopener">Resume</a>
+      </div>
+    </div>
+  </div>
+  <h2>Education</h2><div class="tl" id="edu"></div>
+  <h2>Skills</h2>
+  <div class="grid2">
+    <div class="box"><h3>Tech Skills</h3><div class="chips" id="tech"></div></div>
+    <div class="box"><h3>Soft Skills</h3><div class="chips" id="soft"></div></div>
+  </div>
+  <h2>Achievement</h2><div class="tl" id="ach"></div>
+  <h2>Certificate</h2><h3>Tech certificate</h3><div class="grid" id="cert"></div>
+  <h2>Contact</h2>
+  <div class="box contact">
+    <p><a href="#" target="_blank" rel="noopener">Instagram</a><a href="#" target="_blank" rel="noopener">TikTok</a><a href="#" target="_blank" rel="noopener">Website</a><a href="#" target="_blank" rel="noopener">LinkedIn</a></p>
+    <p><a href="mailto:umijk1169@gmail.com">umijk1169@gmail.com</a><a href="tel:+601164229386">011 - 6422 9386</a></p>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="tab" hidden>
+  <h2>Leadership</h2>
+  <h3>SMFFSKM | Position: Exco Multimedia</h3><div class="grid" id="smf"></div>
+  <h3>CSCLUB | Position: Leader of Exco Multimedia</h3><div class="grid" id="csc"></div>
+  <h2>Volunteer</h2><div class="grid" id="vol"></div>
+</section>
+
+<!-- PROJECT (moved to sit right after Experience) -->
+<section id="project" class="tab" hidden>
+  <h2>My project</h2>
+  <div class="box proj">
+    <div>
+      <div class="ph wide"><img src="images/expensexpert.jpg" alt="ExpenseXpert" onerror="this.remove()"><span>ExpenseXpert - Group 1</span></div>
+      <ul class="meta"><li>TYPE: GROUP ASSIGNMENT<li>COURSE: CS402<li>LANGUAGE: C++<li>SOFTWARE: EMBARCADERO DEV C++</ul>
+    </div>
+    <div>
+      <h3>Writeup</h3>
+      <p class="dim">Describe ExpenseXpert here: what problem it solves, the main features, and what you built.</p>
+      <a class="btn" href="https://github.com/your-username/your-repo" target="_blank" rel="noopener">GitHub Link</a>
+    </div>
+  </div>
+  <div class="grid" id="more"></div>
+</section>
+
+<!-- PHOTOGRAPHY -->
+<section id="photography" class="tab" hidden>
+  <div class="hero">
+    <div class="pic"><img src="images/photographer.jpg" alt="Fatin with camera" onerror="this.remove()"></div>
+    <div class="box term">
+      <div class="bar"><i></i><i></i><i></i><span>~/photography/equipment</span></div>
+      <div class="pad"><h3>My Equipment</h3><img class="cam" src="images/camera.png" alt="Sony alpha camera" onerror="this.remove()"></div>
+    </div>
+  </div>
+  <h2>Collection</h2>
+  <div class="box shot"><div class="ph"><img src="images/photo-1.jpg" alt="" onerror="this.remove()"><span>Collection cover</span></div><p>Details</p></div>
+  <div class="box shot"><div class="ph"><img src="images/photo-2.jpg" alt="" onerror="this.remove()"><span>Collection cover</span></div><p>Details</p></div>
+</section>
+
+<!-- DESIGN -->
+<section id="design" class="tab" hidden>
+  <h2>Collection Design</h2><div id="dz"></div>
+</section>
+</main>
+<footer>&copy; 2026 Fatin</footer>
+<script src="script.js"></script>
+</body>
+</html>
