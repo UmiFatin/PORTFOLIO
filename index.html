@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<aside class="side">
+<header class="side">
   <div class="who">
     <img class="av" src="images/profile.jpg" alt="" onerror="this.style.visibility='hidden'">
     <div><strong>Fatin</strong><p>Computer Science student</p></div>
@@ -19,8 +19,7 @@
   <nav id="nav">
     <a href="#about">About Me</a><a href="#experience">Experience</a><a href="#project">Project</a><a href="#photography">Photography</a><a href="#design">Design</a>
   </nav>
-  <p class="foot">&copy; 2026 Fatin</p>
-</aside>
+</header>
 
 <main>
 <!-- ABOUT ME -->
@@ -84,16 +83,16 @@
     <div class="pic"><img src="images/photographer.jpg" alt="Fatin with camera" onerror="this.remove()"></div>
     <div><p class="path">~/photography/equipment</p><h3>My Equipment</h3><img class="cam" src="images/camera.png" alt="Sony alpha camera" onerror="this.remove()"></div>
   </div>
-  <h2>Collection</h2>
-  <div class="box shot"><div class="ph"><img src="images/photo-1.jpg" alt="" onerror="this.remove()"><span>Collection cover</span></div><p>Details</p></div>
-  <div class="box shot"><div class="ph"><img src="images/photo-2.jpg" alt="" onerror="this.remove()"><span>Collection cover</span></div><p>Details</p></div>
+  <h2>Collection</h2><div class="grid" id="pc"></div>
 </section>
 
 <!-- DESIGN -->
 <section id="design" class="tab" hidden>
-  <h2>Collection Design</h2><div id="dz"></div>
+  <h2>Collection Design</h2><div class="grid" id="dz"></div>
 </section>
 </main>
+<footer>&copy; 2026 Fatin</footer>
+<dialog id="dlg"><div class="dc"><div class="dh"><div><h3 id="dt"></h3><p class="dim" id="dd"></p></div><button class="x btn" type="button">Close</button></div><div class="gal" id="dg"></div></div></dialog>
 <script src="script.js"></script>
 </body>
 </html>
