@@ -7,34 +7,42 @@
 <meta name="description" content="Portfolio of Fatin, Computer Science student at UiTM.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<nav id="nav">
-  <img class="av" src="images/profile.jpg" alt="" onerror="this.style.visibility='hidden'">
-  <a href="#about">About Me</a><a href="#experience">Experience</a><a href="#project">Project</a><a href="#photography">Photography</a><a href="#design">Design</a>
-</nav>
+<aside class="side">
+  <div class="who">
+    <img class="av" src="images/profile.jpg" alt="" onerror="this.style.visibility='hidden'">
+    <div><strong>Fatin</strong><p>Computer Science student</p></div>
+  </div>
+  <nav id="nav">
+    <a href="#about">About Me</a><a href="#experience">Experience</a><a href="#project">Project</a><a href="#photography">Photography</a><a href="#design">Design</a>
+  </nav>
+  <p class="foot">&copy; 2026 Fatin</p>
+</aside>
 
 <main>
 <!-- ABOUT ME -->
 <section id="about" class="tab">
   <div class="hero">
     <div class="pic"><img src="images/profile.jpg" alt="Fatin" onerror="this.remove()"></div>
-    <div class="box term">
-      <div class="bar"><i></i><i></i><i></i><span>fatin@uitm:~$ whoami</span></div>
-      <div class="pad">
-        <h1>Hi there!<br>I'm Fatin<b class="cur">_</b></h1>
-        <p>Dedicated and goal-oriented Computer Science student with a proven record of leadership, innovation and teamwork. Actively engaged in competitions, consistently achieving high results and awards, including in areas like coding and multimedia.</p>
-        <a class="btn" href="resume.pdf" target="_blank" rel="noopener">Resume</a>
-      </div>
+    <div>
+      <p class="path">// whoami</p>
+      <h1>Hi there! I'm Fatin<b class="cur">_</b></h1>
+      <p class="dim">Dedicated and goal-oriented Computer Science student with a proven record of leadership, innovation and teamwork. Actively engaged in competitions, consistently achieving high results and awards, including in areas like coding and multimedia.</p>
+      <div class="chips tags"><span class="chip">UiTM</span><span class="chip">BCS (Hons)</span><span class="chip">CGPA 3.31</span></div>
+      <a class="btn" href="resume.pdf" target="_blank" rel="noopener">Resume</a>
     </div>
   </div>
-  <h2>Education</h2><div class="tl" id="edu"></div>
-  <h2>Skills</h2>
-  <div class="grid2">
-    <div class="box"><h3>Tech Skills</h3><div class="chips" id="tech"></div></div>
-    <div class="box"><h3>Soft Skills</h3><div class="chips" id="soft"></div></div>
+  <div class="cols">
+    <div><h2>Education</h2><div class="tl" id="edu"></div></div>
+    <div><h2>Skills</h2>
+      <div class="stack">
+        <div class="box"><h3>Tech Skills</h3><div class="chips" id="tech"></div></div>
+        <div class="box"><h3>Soft Skills</h3><div class="chips" id="soft"></div></div>
+      </div>
+    </div>
   </div>
   <h2>Achievement</h2><div class="tl" id="ach"></div>
   <h2>Certificate</h2><h3>Tech certificate</h3><div class="grid" id="cert"></div>
@@ -53,7 +61,7 @@
   <h2>Volunteer</h2><div class="grid" id="vol"></div>
 </section>
 
-<!-- PROJECT (moved to sit right after Experience) -->
+<!-- PROJECT (sits right after Experience) -->
 <section id="project" class="tab" hidden>
   <h2>My project</h2>
   <div class="box proj">
@@ -64,7 +72,7 @@
     <div>
       <h3>Writeup</h3>
       <p class="dim">Describe ExpenseXpert here: what problem it solves, the main features, and what you built.</p>
-      <a class="btn" href="https://github.com/your-username/your-repo" target="_blank" rel="noopener">GitHub Link</a>
+      <a class="btn" href="https://github.com/UmiFatin" target="_blank" rel="noopener">GitHub Link</a>
     </div>
   </div>
   <div class="grid" id="more"></div>
@@ -74,10 +82,7 @@
 <section id="photography" class="tab" hidden>
   <div class="hero">
     <div class="pic"><img src="images/photographer.jpg" alt="Fatin with camera" onerror="this.remove()"></div>
-    <div class="box term">
-      <div class="bar"><i></i><i></i><i></i><span>~/photography/equipment</span></div>
-      <div class="pad"><h3>My Equipment</h3><img class="cam" src="images/camera.png" alt="Sony alpha camera" onerror="this.remove()"></div>
-    </div>
+    <div><p class="path">~/photography/equipment</p><h3>My Equipment</h3><img class="cam" src="images/camera.png" alt="Sony alpha camera" onerror="this.remove()"></div>
   </div>
   <h2>Collection</h2>
   <div class="box shot"><div class="ph"><img src="images/photo-1.jpg" alt="" onerror="this.remove()"><span>Collection cover</span></div><p>Details</p></div>
@@ -89,7 +94,6 @@
   <h2>Collection Design</h2><div id="dz"></div>
 </section>
 </main>
-<footer>&copy; 2026 Fatin</footer>
 <script src="script.js"></script>
 </body>
 </html>
