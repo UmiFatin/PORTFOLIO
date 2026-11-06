@@ -28,14 +28,22 @@ $("ach").innerHTML = [
     ["Battle Code Competition 2023", "College Level", "Participation"]]]
 ].map(([y, l]) => `<div class="ti"><h4>${y}</h4><div class="box sm">${l.map(a => `<p>${a[0]} <span class="chip s">${a[1]} (<b>${a[2]}</b>)</span></p>`).join("")}</div></div>`).join("");
 
-// Certificates -> images/cert-1.jpg, cert-2.jpg ...
-$("cert").innerHTML = [
-  ["Road To White Hat Workshop", "28 June 2026"],
-  ["1st International Prosolve 2026", "23 May 2026"],
-  ["From Queries To Decision: SQL Workshop", "22 April 2026"],
-  ["SMFFSKM", ""],
-  ["Modul Kepimpinan Dinamik", "25 - 27 April 2026"]
-].map((c, i) => `<div class="box card">${ph(`images/cert-${i + 1}.jpg`)}<h5>${c[0]}</h5><small>${c[1]}</small></div>`).join("");
+// Certificates -> images/cert-1.jpg, cert-2.jpg ... (number = position in this list)
+// [title, date, category]  category: "tech" or "leadership"
+const certs = [
+  ["Road To White Hat Workshop", "28 June 2026", "tech"],
+  ["1st International Prosolve 2026", "23 May 2026", "tech"],
+  ["From Queries To Decision: SQL Workshop", "22 April 2026", "tech"],
+  ["SMFFSKM", "", "leadership"],
+  ["Modul Kepimpinan Dinamik", "25 - 27 April 2026", "leadership"]
+];
+const certCats = [["tech", "Tech certificate"], ["leadership", "Leadership certificate"]];
+function showCerts(k) {
+  $("certTabs").innerHTML = certCats.map(c => `<button type="button" aria-pressed="${c[0] === k}" data-k="${c[0]}">${c[1]}</button>`).join("");
+  $("cert").innerHTML = certs.map((c, i) => c[2] === k ? `<div class="box card">${ph(`images/cert-${i + 1}.jpg`)}<h5>${c[0]}</h5><small>${c[1]}</small></div>` : "").join("");
+}
+$("certTabs").onclick = e => { const b = e.target.closest("button"); if (b) showCerts(b.dataset.k); };
+showCerts("tech");
 
 // Experience -> images/smffskm-1.jpg ..., images/csclub-1.jpg ...
 const D = "dd/mm/yyyy"; // replace with the real dates
