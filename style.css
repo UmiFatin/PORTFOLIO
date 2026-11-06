@@ -96,3 +96,8 @@ dialog::backdrop{background:rgba(0,0,0,.82)}
 .gal:empty::after{content:"No photos added yet. Add images to the images folder.";color:var(--dim);font-size:13px}
 @media(max-width:860px){.cols,.proj{grid-template-columns:1fr}}
 @media(max-width:700px){.who p{display:none}#nav{width:100%}}
+/* certificate category switch */
+.seg{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.seg button{padding:7px 16px;border:1px solid var(--line);border-radius:99px;background:var(--bg);color:var(--dim);font:13px 'JetBrains Mono',monospace;cursor:pointer;transition:border-color .15s,color .15s}
+.seg button:hover{border-color:var(--red);color:var(--tx)}
+.seg button[aria-pressed="true"]{background:var(--tint);border-color:var(--red);color:var(--tx)}
