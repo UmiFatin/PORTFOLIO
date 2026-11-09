@@ -26,15 +26,16 @@
 <!-- ABOUT ME -->
 <section id="about" class="tab">
   <div class="hero">
-    <div class="pic"><img src="images/profile.jpeg" alt="Fatin" onerror="this.remove()"></div>
+    <div class="pic"><img src="images/profile.jpg" alt="Fatin" onerror="this.remove()"></div>
     <div>
       <p class="path">// <span id="typed"></span><b class="cur">_</b></p>
       <h1>Hi there! I'm Fatin</h1>
       <p class="dim">Dedicated and goal-oriented Computer Science student with a proven record of leadership, innovation and teamwork. Actively engaged in competitions, consistently achieving high results and awards, including in areas like coding and multimedia.</p>
-      <div class="chips tags"><span class="chip">UiTM</span><span class="chip">Bachelor of Computer Science (Hons)</span></div>
+      <div class="chips tags"><span class="chip">UiTM</span><span class="chip">BCS (Hons)</span><span class="chip">CGPA 3.31</span></div>
       <a class="btn" href="resume.pdf" target="_blank" rel="noopener">Resume</a>
     </div>
   </div>
+  <div class="stats" id="stats"></div>
   <div class="cols">
     <div><h2>Education</h2><div class="tl" id="edu"></div></div>
     <div><h2>Skills</h2>
@@ -49,18 +50,18 @@
   <h2>Contact</h2>
   <div class="box contact">
     <p><a href="#" target="_blank" rel="noopener">Instagram</a><a href="#" target="_blank" rel="noopener">TikTok</a><a href="#" target="_blank" rel="noopener">Website</a><a href="#" target="_blank" rel="noopener">LinkedIn</a></p>
-    <p><a href="mailto:umijk1169@gmail.com">umijk1169@gmail.com</a><a href="tel:+601164229386">011 - 6422 9386</a></p>
+    <p><a href="mailto:umijk1169@gmail.com" data-copy="umijk1169@gmail.com" title="Click to copy">umijk1169@gmail.com</a><a href="tel:+601164229386" data-copy="011-6422 9386" title="Click to copy">011 - 6422 9386</a></p>
   </div>
 </section>
 
 <!-- EXPERIENCE -->
 <section id="experience" class="tab" hidden>
-  <h2>Experience</h2><div class="seg" id="expTabs"></div><h3 id="expHead"></h3><div class="grid" id="exp"></div>
+  <h2>Experience</h2><div class="seg" id="expTabs"></div><input class="q" id="expQ" type="search" placeholder="Search programmes (press /)" aria-label="Search programmes"><h3 id="expHead"></h3><div class="grid" id="exp"></div>
 </section>
 
 <!-- PROJECT (sits right after Experience) -->
 <section id="project" class="tab" hidden>
-  <h2>My project</h2><div class="seg" id="pjTabs"></div><div class="grid" id="pj"></div>
+  <h2>My project</h2><div class="seg" id="pjTabs"></div><input class="q" id="pjQ" type="search" placeholder="Search projects (press /)" aria-label="Search projects"><div class="grid" id="pj"></div>
 </section>
 
 <!-- PHOTOGRAPHY -->
@@ -69,15 +70,17 @@
     <div class="pic"><img src="images/photographer.jpg" alt="Fatin with camera" onerror="this.remove()"></div>
     <div><p class="path">~/photography/equipment</p><h3>My Equipment</h3><img class="cam" src="images/camera.png" alt="Sony alpha camera" onerror="this.remove()"></div>
   </div>
-  <h2>Collection</h2><div class="grid" id="pc"></div>
+  <h2>Collection</h2><div id="pc"></div>
 </section>
 
 <!-- DESIGN -->
 <section id="design" class="tab" hidden>
-  <h2>Collection Design</h2><div class="grid" id="dz"></div>
+  <h2>Collection Design</h2><div class="dsn" id="dz"></div>
 </section>
 </main>
-<footer>&copy; 2026 Fatin</footer>
+<footer>&copy; 2026 Fatin &middot; tip: press 1-5 to switch tabs</footer>
+<dialog id="lb" aria-label="Photo viewer"><button class="lbx" type="button" aria-label="Close">&times;</button><button class="lbp" type="button" aria-label="Previous">&lsaquo;</button><img id="lbi" alt=""><button class="lbn" type="button" aria-label="Next">&rsaquo;</button><p id="lbc"></p></dialog>
+<div id="toast"></div><button id="top" type="button" aria-label="Back to top">&uarr;</button>
 <dialog id="dlg"><div class="dc"><div class="dh"><div><h3 id="dt"></h3><p class="dim" id="dd"></p></div><button class="x btn" type="button">Close</button></div><div id="dx"></div><div class="gal" id="dg"></div></div></dialog>
 <script src="script.js"></script>
 </body>
