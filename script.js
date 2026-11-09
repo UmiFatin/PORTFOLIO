@@ -88,6 +88,7 @@ exp.workshop = ["Workshops and competitions", [
 // Experience categories (buttons) -> images/<category>-1.jpg, <category>-2.jpg ...
 const expCats = [["csclub", "CSCLUB"], ["smffskm", "SMFFSKM"], ["volunteer", "Volunteer"], ["workshop", "Workshop/Comp"]];
 function showExp(k) {
+  if ($("expQ")) $("expQ").value = "";
   $("expTabs").innerHTML = expCats.map(c => `<button type="button" aria-pressed="${c[0] === k}" data-k="${c[0]}">${c[1]}</button>`).join("");
   $("expHead").textContent = exp[k][0];
   $("exp").innerHTML = exp[k][1].map((x, i) => `<button class="box card cov xp" data-k="${k}" data-i="${i}">${ph(`images/${k}-${i + 1}.jpg`)}<h5>${x[0]}</h5><small>${x[2] || D}</small><small>${x[1]}</small><span class="view">See more</span></button>`).join("");
@@ -111,33 +112,58 @@ $("exp").onclick = e => {
 };
 showExp("csclub");
 
-// Collections: cover = <folder>-1.jpg, gallery = <folder>-1.jpg ... <folder>-N.jpg
-// [title, file prefix, max number of photos, short explanation]
 const dlg = $("dlg");
-function covers(id, dir, list) {
-  $(id).innerHTML = list.map((c, i) => `<button class="box card cov" data-i="${i}">${ph(`images/${dir}/${c[1]}-1.jpg`, "cover")}<h5>${c[0]}</h5><small>${c[3]}</small><span class="view">View photos</span></button>`).join("");
-  $(id).onclick = e => {
-    const b = e.target.closest(".cov"); if (!b) return;
-    const c = list[b.dataset.i];
-    $("dt").textContent = c[0]; $("dd").textContent = c[3]; $("dx").innerHTML = "";
-    $("dg").innerHTML = Array.from({length: c[2]}, (_, k) => `<img src="images/${dir}/${c[1]}-${k + 1}.jpg" alt="${c[0]} ${k + 1}" loading="lazy" onerror="this.remove()">`).join("");
-    dlg.showModal();
-  };
-}
 dlg.onclick = e => { if (e.target === dlg || e.target.closest(".x")) dlg.close(); };
 dlg.onclose = () => { $("dg").className = "gal"; };
 $("dg").onclick = e => { if (e.target.tagName === "IMG") e.target.classList.toggle("big"); }; // tap a photo to enlarge
 
-covers("pc", "photography", [
+// ===== PHOTOGRAPHY: banners that expand into a gallery =====
+// [title, file prefix, max number of photos, short explanation]  -> images/photography/<prefix>-1.jpg ...
+const photoCols = [
   ["Collection 1", "collection-1", 12, "Write one short line about this collection."],
-  ["Collection 2", "collection-2", 12, "Write one short line about this collection."]]);
-covers("dz", "design", [
+  ["Collection 2", "collection-2", 12, "Write one short line about this collection."]];
+// ===== DESIGN: category sidebar + inline gallery =====  -> images/design/<prefix>-1.jpg ...
+const designCats = [
   ["Typography", "typography", 12, "Text-led designs and social media layouts."],
   ["Poster", "poster", 12, "Posters for events and campaigns."],
   ["Poster IG", "poster-ig", 20, "Instagram posts and stories for faculty and club events."],
   ["User Interface", "ui", 12, "App screen designs made in Figma."],
   ["Mockup", "mockup", 12, "Brand and product mockups."],
-  ["Mind Map", "mindmap", 12, "Mind maps for study and project planning."]]);
+  ["Mind Map", "mindmap", 12, "Mind maps for study and project planning."]];
+const gimgs = (dir, c) => Array.from({length: c[2]}, (_, k) => `<img src="images/${dir}/${c[1]}-${k + 1}.jpg" alt="${c[0]} ${k + 1}" loading="lazy" onerror="this.remove()">`).join("");
+
+$("pc").innerHTML = photoCols.map((c, i) => `<article class="box pcol"><button class="pban" type="button" aria-expanded="false" data-i="${i}">${ph(`images/photography/${c[1]}-1.jpg`, "cover")}<div class="cap"><h3>${c[0]}</h3><p>${c[3]}</p><span class="view"></span></div></button><div class="pgal masonry"></div></article>`).join("");
+$("pc").onclick = e => {
+  const b = e.target.closest(".pban"); if (!b) return;
+  const art = b.parentElement, willOpen = !art.classList.contains("open");
+  $("pc").querySelectorAll(".pcol").forEach(a => { a.classList.remove("open"); a.querySelector(".pban").setAttribute("aria-expanded", "false"); });
+  if (!willOpen) return;
+  const g = art.querySelector(".pgal");
+  if (!g.innerHTML) g.innerHTML = gimgs("photography", photoCols[b.dataset.i]);
+  art.classList.add("open"); b.setAttribute("aria-expanded", "true");
+};
+
+function showDesign(k) {
+  const c = designCats[k];
+  $("dz").innerHTML = `<div class="dtabs">${designCats.map((x, i) => `<button type="button" aria-pressed="${i === k}" data-k="${i}">${x[0]}</button>`).join("")}</div><div class="dpane"><h3>${c[0]}</h3><p class="dim">${c[3]}</p><div class="masonry">${gimgs("design", c)}</div></div>`;
+}
+$("dz").addEventListener("click", e => { const b = e.target.closest(".dtabs button"); if (b) showDesign(+b.dataset.k); });
+showDesign(0);
+
+// ===== PHOTO VIEWER (click any photo): arrows, keyboard and swipe =====
+const lb = $("lb"); let lbList = [], lbI = 0;
+function lbShow() { const [src, alt] = lbList[lbI]; $("lbi").src = src; $("lbi").alt = alt; $("lbc").textContent = `${lbI + 1} / ${lbList.length}  ${alt}`; }
+const lbGo = d => { lbI = (lbI + d + lbList.length) % lbList.length; lbShow(); };
+[$("pc"), $("dz")].forEach(g => g.addEventListener("click", e => {
+  const im = e.target.closest(".masonry img"); if (!im) return;
+  const all = [...im.parentElement.querySelectorAll("img")];
+  lbList = all.map(x => [x.src, x.alt]); lbI = all.indexOf(im); lbShow(); lb.showModal();
+}));
+lb.onclick = e => { if (e.target.closest(".lbp")) lbGo(-1); else if (e.target.closest(".lbn")) lbGo(1); else if (e.target !== $("lbi")) lb.close(); };
+lb.addEventListener("keydown", e => { if (e.key === "ArrowLeft") lbGo(-1); else if (e.key === "ArrowRight") lbGo(1); });
+let tx = 0;
+lb.ontouchstart = e => { tx = e.touches[0].clientX; };
+lb.ontouchend = e => { const d = e.changedTouches[0].clientX - tx; if (Math.abs(d) > 50) lbGo(d < 0 ? 1 : -1); };
 
 // Projects: [title, file prefix, category, type, writeup, details, github link]
 // images/projects/<prefix>-1.jpg = cover, then -2.jpg, -3.jpg ... = more screenshots
@@ -150,6 +176,7 @@ const projects = [
   ["Future Trends in Educational Technology", "edu-tech", "Video", "Group Project", W, "", ""]
 ];
 function showProjects(k) {
+  if ($("pjQ")) $("pjQ").value = "";
   const cats = ["All", ...new Set(projects.map(p => p[2]))];
   $("pjTabs").innerHTML = cats.map(c => `<button type="button" aria-pressed="${c === k}" data-k="${c}">${c}</button>`).join("");
   $("pj").innerHTML = projects.map((p, i) => k === "All" || p[2] === k ? `<button class="box card cov pj" data-i="${i}"><div class="cv">${ph(`images/projects/${p[1]}-1.jpg`, "cover")}<span class="badge">${p[3]}</span></div><span class="tag">${p[2]}</span><h5>${p[0]}</h5></button>` : "").join("");
@@ -193,6 +220,61 @@ addEventListener("scroll", () => {
   const m = document.documentElement.scrollHeight - innerHeight;
   $("bar").style.width = (m > 0 ? scrollY / m * 100 : 0) + "%";
 });
+
+/* ===== MORE INTERACTIVE ===== */
+// live search inside Experience and Project (Esc clears)
+[["expQ", "exp"], ["pjQ", "pj"]].forEach(([q, g]) => {
+  if (!$(q)) return;
+  $(q).oninput = () => { const v = $(q).value.trim().toLowerCase(); [...$(g).children].forEach(c => c.hidden = !c.textContent.toLowerCase().includes(v)); };
+  $(q).onkeydown = e => { if (e.key === "Escape") { $(q).value = ""; $(q).oninput(); $(q).blur(); } };
+});
+// counters on About Me, counted from your own lists
+if ($("stats")) {
+  const stats = [["Programme roles", exp.smffskm[1].length + exp.csclub[1].length], ["Workshops & competitions", exp.workshop[1].length], ["Certificates", certs.length], ["Projects", projects.length]];
+  $("stats").innerHTML = stats.map(x => `<div class="box stat"><b data-n="${x[1]}">0</b><span>${x[0]}</span></div>`).join("");
+  const io = new IntersectionObserver((en, ob) => en.forEach(x => {
+    if (!x.isIntersecting) return;
+    const el = x.target, n = +el.dataset.n; ob.unobserve(el);
+    if (reduce) { el.textContent = n; return; }
+    let v = 0; const t = setInterval(() => { el.textContent = ++v; if (v >= n) clearInterval(t); }, 900 / n);
+  }));
+  $("stats").querySelectorAll("b").forEach(b => io.observe(b));
+}
+// 3D tilt on cards that follows the mouse
+if (!reduce) {
+  document.addEventListener("mousemove", e => {
+    const c = e.target.closest && e.target.closest(".card"); if (!c) return;
+    const r = c.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+    c.style.transform = `perspective(700px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateY(-4px)`;
+  });
+  document.addEventListener("mouseout", e => {
+    const c = e.target.closest && e.target.closest(".card");
+    if (c && !c.contains(e.relatedTarget)) c.style.transform = "";
+  });
+}
+// keyboard: 1-5 switch tabs, / jumps to search
+addEventListener("keydown", e => {
+  if (dlg.open || lb.open || e.ctrlKey || e.metaKey || e.altKey || /^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName)) return;
+  const i = "12345".indexOf(e.key);
+  if (i >= 0) location.hash = ["about", "experience", "project", "photography", "design"][i];
+  else if (e.key === "/") {
+    const q = !$("experience").hidden ? $("expQ") : !$("project").hidden ? $("pjQ") : null;
+    if (q) { e.preventDefault(); q.focus(); }
+  }
+});
+// click email / phone to copy
+document.addEventListener("click", e => {
+  const a = e.target.closest("[data-copy]"), t = $("toast"); if (!a || !t) return;
+  e.preventDefault();
+  if (navigator.clipboard) navigator.clipboard.writeText(a.dataset.copy);
+  t.textContent = "Copied: " + a.dataset.copy; t.classList.add("show");
+  clearTimeout(t.h); t.h = setTimeout(() => t.classList.remove("show"), 1800);
+});
+// back to top button
+if ($("top")) {
+  addEventListener("scroll", () => $("top").classList.toggle("show", scrollY > 400));
+  $("top").onclick = () => scrollTo({top: 0, behavior: reduce ? "auto" : "smooth"});
+}
 
 /* ===== TAB ROUTER (About Me > Experience > Project > Photography > Design) ===== */
 const tabs = [...document.querySelectorAll(".tab")], links = [...document.querySelectorAll("#nav a")];
