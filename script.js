@@ -90,9 +90,25 @@ const expCats = [["csclub", "CSCLUB"], ["smffskm", "SMFFSKM"], ["volunteer", "Vo
 function showExp(k) {
   $("expTabs").innerHTML = expCats.map(c => `<button type="button" aria-pressed="${c[0] === k}" data-k="${c[0]}">${c[1]}</button>`).join("");
   $("expHead").textContent = exp[k][0];
-  $("exp").innerHTML = exp[k][1].map((x, i) => `<div class="box card">${ph(`images/${k}-${i + 1}.jpg`)}<h5>${x[0]}</h5><small>${x[2] || D}</small><small>${x[1]}</small></div>`).join("");
+  $("exp").innerHTML = exp[k][1].map((x, i) => `<button class="box card cov xp" data-k="${k}" data-i="${i}">${ph(`images/${k}-${i + 1}.jpg`)}<h5>${x[0]}</h5><small>${x[2] || D}</small><small>${x[1]}</small><span class="view">See more</span></button>`).join("");
 }
 $("expTabs").onclick = e => { const b = e.target.closest("button"); if (b) showExp(b.dataset.k); };
+// "See more" window for each programme.
+// Item format: [name, role, date, description, video link (optional)]
+// Photos:  images/<category>/<programme number>-1.jpg ... -6.jpg   (the card cover is shown first)
+// Video:   images/<category>/<programme number>.mp4  or a YouTube link as the 5th field
+const vid = u => { const m = u.match(/(?:v=|youtu\.be\/|embed\/)([\w-]{11})/); return m ? `<iframe src="https://www.youtube.com/embed/${m[1]}" allowfullscreen loading="lazy"></iframe>` : `<video src="${u}" controls playsinline preload="metadata"></video>`; };
+$("exp").onclick = e => {
+  const b = e.target.closest(".xp"); if (!b) return;
+  const k = b.dataset.k, n = +b.dataset.i + 1, x = exp[k][1][n - 1];
+  $("dt").textContent = x[0];
+  $("dd").textContent = [x[1], x[2] || D].filter(Boolean).join(" | ");
+  $("dx").innerHTML = `<p class="dim">${x[3] || "Add a short description here: what you did and what you learned."}</p>`;
+  $("dg").className = "gal compact";
+  const imgs = [`images/${k}-${n}.jpg`, ...Array.from({length: 6}, (_, j) => `images/${k}/${n}-${j + 1}.jpg`)];
+  $("dg").innerHTML = (x[4] ? vid(x[4]) : "") + imgs.map(src => `<img src="${src}" alt="" loading="lazy" onerror="this.remove()">`).join("") + `<video src="images/${k}/${n}.mp4" controls playsinline preload="metadata" onerror="this.remove()"></video>`;
+  dlg.showModal();
+};
 showExp("csclub");
 
 // Collections: cover = <folder>-1.jpg, gallery = <folder>-1.jpg ... <folder>-N.jpg
@@ -109,6 +125,8 @@ function covers(id, dir, list) {
   };
 }
 dlg.onclick = e => { if (e.target === dlg || e.target.closest(".x")) dlg.close(); };
+dlg.onclose = () => { $("dg").className = "gal"; };
+$("dg").onclick = e => { if (e.target.tagName === "IMG") e.target.classList.toggle("big"); }; // tap a photo to enlarge
 
 covers("pc", "photography", [
   ["Collection 1", "collection-1", 12, "Write one short line about this collection."],
@@ -146,6 +164,35 @@ $("pj").onclick = e => {
   dlg.showModal();
 };
 showProjects("All");
+
+/* ===== SIMPLE ANIMATIONS ===== */
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+// typing effect in the hero
+const roles = ["Computer Science student", "Multimedia leader", "Photographer", "Designer"];
+let ri = 0, ci = 0, del = false;
+(function type() {
+  if (!$("typed")) return;
+  const w = roles[ri];
+  if (reduce) { $("typed").textContent = w; return; }
+  ci += del ? -1 : 1;
+  $("typed").textContent = w.slice(0, ci);
+  let t = del ? 40 : 90;
+  if (!del && ci === w.length) { del = true; t = 1400; }
+  else if (del && ci === 0) { del = false; ri = (ri + 1) % roles.length; t = 300; }
+  setTimeout(type, t);
+})();
+// red glow follows the mouse inside the hero card
+document.querySelectorAll(".hero").forEach(h => h.onmousemove = e => {
+  const r = h.getBoundingClientRect();
+  h.style.setProperty("--mx", e.clientX - r.left + "px");
+  h.style.setProperty("--my", e.clientY - r.top + "px");
+});
+// scroll progress line at the top of the page
+addEventListener("scroll", () => {
+  if (!$("bar")) return;
+  const m = document.documentElement.scrollHeight - innerHeight;
+  $("bar").style.width = (m > 0 ? scrollY / m * 100 : 0) + "%";
+});
 
 /* ===== TAB ROUTER (About Me > Experience > Project > Photography > Design) ===== */
 const tabs = [...document.querySelectorAll(".tab")], links = [...document.querySelectorAll("#nav a")];
