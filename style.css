@@ -28,12 +28,12 @@ h3{margin:22px 0 12px;font-size:15px;font-weight:500;color:var(--dim)}
 .box h3{margin:0 0 14px;color:var(--tx);font-weight:700}
 /* surfaces */
 .box{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:20px}
-.card{padding:10px;transition:border-color .15s}
-.card:hover{border-color:var(--red)}
+.card{padding:10px;transition:border-color .15s,transform .2s,box-shadow .2s}
+.card:hover{border-color:var(--red);transform:translateY(-4px);box-shadow:0 10px 24px rgba(229,48,63,.15)}
 .card h5{margin:10px 2px 2px;font-size:13px;font-weight:700;line-height:1.35}
 small{display:block;margin:0 2px;color:var(--dim);font-size:11px}
 /* hero */
-.hero{display:flex;flex-wrap:wrap;align-items:center;gap:28px;padding:28px;border:1px solid var(--line);border-radius:16px;background:radial-gradient(circle at 0 0,var(--tint),transparent 55%),var(--surf)}
+.hero{display:flex;flex-wrap:wrap;align-items:center;gap:28px;padding:28px;border:1px solid var(--line);border-radius:16px;background:radial-gradient(circle at var(--mx,0%) var(--my,0%),rgba(229,48,63,.2),transparent 50%),var(--surf)}
 .pic{flex:none;width:132px;height:132px;overflow:hidden;border-radius:50%;border:2px solid var(--red);background:var(--bg);box-shadow:0 0 0 6px var(--tint)}
 .pic img{width:100%;height:100%;object-fit:cover}
 .hero>div:last-child{flex:1;min-width:260px}
@@ -112,3 +112,28 @@ dialog::backdrop{background:rgba(0,0,0,.82)}
 #dx{margin-bottom:18px}
 #dx:empty{display:none}
 .meta1{margin-bottom:10px;font:12px 'JetBrains Mono',monospace}
+/* compact "see more" gallery */
+#dg.compact{grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px}
+.gal.compact img,.gal.compact video,.gal.compact iframe{width:100%;aspect-ratio:1;object-fit:cover;border:0;border-radius:8px;background:#000;cursor:zoom-in}
+.gal.compact video,.gal.compact iframe{grid-column:span 2;aspect-ratio:16/9;cursor:auto}
+.gal.compact .big{grid-column:1/-1;aspect-ratio:auto;max-height:60vh;object-fit:contain;cursor:zoom-out}
+/* motion */
+@keyframes in{from{opacity:0;transform:translateY(10px)}}
+@keyframes pop{from{opacity:0;transform:scale(.96)}}
+@keyframes fade{from{opacity:0}}
+.tab{animation:in .35s ease backwards}
+.grid>*,.ti{animation:in .4s ease backwards}
+.grid>:nth-child(n+2){animation-delay:.05s}
+.grid>:nth-child(n+3){animation-delay:.1s}
+.grid>:nth-child(n+4){animation-delay:.15s}
+.grid>:nth-child(n+5){animation-delay:.2s}
+dialog[open]{animation:pop .22s ease}
+dialog[open]::backdrop{animation:fade .22s ease}
+#bar{position:fixed;top:0;left:0;z-index:30;height:2px;width:0;background:var(--red);box-shadow:0 0 8px var(--red)}
+.btn{transition:filter .15s,transform .15s}
+.btn:active,.seg button:active{transform:scale(.96)}
+.chip{transition:border-color .15s,transform .15s}
+#tech .chip:hover,#soft .chip:hover{transform:translateY(-2px)}
+.pic{transition:transform .3s}
+.pic:hover{transform:scale(1.05) rotate(-2deg)}
+@media(prefers-reduced-motion:reduce){*,::backdrop{animation:none!important;transition:none!important}}
